@@ -28,10 +28,10 @@
 #define V_TICKS 10000000		/* VMS ticks per second */
 #define VU_DELTA 0x007c95674beb4000LL	/* VMS ticks from 17.11.1858 to 1.1.1970 */
 
-static inline struct timespec v2utime (vms_quad bintime)
+static inline struct timespec64 v2utime (vms_quad bintime)
 {
 	vms_quad sec;
-	struct timespec ts;
+	struct timespec64 ts;
 	bintime -= VU_DELTA;
 # ifdef __alpha
 	sec = bintime / V_TICKS;
@@ -39,7 +39,7 @@ static inline struct timespec v2utime (vms_quad bintime)
 	sec = bintime;
 	do_div(sec, V_TICKS);
 # endif
-	ts.tv_sec = (time_t)sec;
+	ts.tv_sec = (time64_t)sec;
 	ts.tv_nsec = (long)((bintime - sec * V_TICKS) * 100LL);
 	return ts;
 }

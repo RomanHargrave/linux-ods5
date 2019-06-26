@@ -29,7 +29,7 @@
 /* convert vms binary time to string */
 static void vms_ctime(vms_quad bintim, char *buf)
 {
-	struct timespec ts;
+	struct timespec64 ts;
 	struct tm tm;
 	ts = v2utime(bintim);
 	time_to_tm(ts.tv_sec, 0, &tm);

@@ -660,7 +660,7 @@ static int ods5_fill_super(struct super_block *sb, void *data, int silent)
 	ods5_debug(2, "%s\n", "start");
 	ods5_info("options: '%s'\n", data? (char *)data: "<NULL>");
 
-	if ((sb->s_flags & MS_RDONLY) == 0) {
+	if ((sb->s_flags & SB_RDONLY) == 0) {
 		ods5_info("version %s only supports read-only\n", ODS5_MODVER);
 		return -EACCES;
 	}

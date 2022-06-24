@@ -32,7 +32,7 @@ static void vms_ctime(vms_quad bintim, char *buf)
 	struct timespec64 ts;
 	struct tm tm;
 	ts = v2utime(bintim);
-	time_to_tm(ts.tv_sec, 0, &tm);
+	time64_to_tm(ts.tv_sec, 0, &tm);
 	sprintf(buf, "%02d-", tm.tm_mday);
 	sprintf(buf + 3, "%.3s-", &"JanFebMarAprMayJunJulAugSepOctNovDec"[tm.tm_mon * 3]);
 	sprintf(buf + 3 + 4, "%4ld ", tm.tm_year + 1900);

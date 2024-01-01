@@ -316,17 +316,17 @@ void ods5_read_inode(struct inode *inode)
 	if (sb_info->utf8 && S_ISLNK(inode->i_mode))
 		inode->i_size = adjust_size(inode);
 	if (fh2->idoffset == 0) {
-		inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+		inode->i_mtime = inode->i_atime = inode_set_ctime_current(inode);
 		GOOD_RETURN;
 	}
 	if ((fh2->struclev >> 8) == 2) {
 		fi2 = (struct ods5_fi2 *)&((vms_word *) fh2)[fh2->idoffset];
-		inode->i_ctime = v2utime(fi2->credate);
+		inode_set_ctime_to_ts(inode, v2utime(fi2->credate));
 		inode->i_mtime = inode->i_atime = v2utime(fi2->revdate);
 		set_nlink(inode,1);
 	} else { /* ((fh2->struclev >> 8) == 5) */
 		fi5 = (struct ods5_fi5 *)&((vms_word *) fh2)[fh2->idoffset];
-		inode->i_ctime = v2utime(fi5->attdate);
+		inode_set_ctime_to_ts(inode, v2utime(fi5->attdate));
 		inode->i_mtime = v2utime(fi5->revdate);
 		inode->i_atime = v2utime(fi5->accdate);
 		set_nlink(inode,(sb_info->volchar /* & ODS5_VOL_HARDLINKS */)? fh2->linkcount: 1);
